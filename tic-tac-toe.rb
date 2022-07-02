@@ -23,6 +23,16 @@ class TicTacToe
                        %w[c 3]]
     @diag_combo1 = [%w[a 1], %w[b 2], %w[c 3]]
     @diag_combo2 = [%w[a 3], %w[b 2], %w[c 1]]
+
+    @a1 = '_|'
+    @a2 = '_|'
+    @a3 = '_'
+    @b1 = '_|'
+    @b2 = '_|'
+    @b3 = '_'
+    @c1 = ' |'
+    @c2 = ' |'
+    @c3 = ' '
   end
 
   def turn
@@ -44,6 +54,37 @@ class TicTacToe
     if @all_moves.include?(@move) || @accepted_moves.none? { |accepted_move| (@move - accepted_move).empty? }
       puts "Sorry, you can't make that move, #{@player_up}.\nEnter an acceptable move that has not been used."
     else
+
+      case @player_up
+      when @player1
+        @player_symbol = 'X'
+      when @player2
+        @player_symbol = 'O'
+      end
+
+      case @move
+      when %w[a 1]
+        @a1 = "#{@player_symbol}|"
+      when %w[a 2]
+        @a2 = "#{@player_symbol}|"
+      when %w[a 3]
+        @a3 = "#{@player_symbol}"
+
+      when %w[b 1]
+        @b1 = "#{@player_symbol}|"
+      when %w[b 2]
+        @b2 = "#{@player_symbol}|"
+      when %w[b 3]
+        @b3 = "#{@player_symbol}"
+
+      when %w[c 1]
+        @c1 = "#{@player_symbol}|"
+      when %w[c 2]
+        @c2 = "#{@player_symbol}|"
+      when %w[c 3]
+        @c3 = "#{@player_symbol}"
+
+      end
 
       @column = @move[0]
       @row = @move[1]
@@ -71,7 +112,6 @@ class TicTacToe
   end
 
   def winner
-
     if (@diag_combo1 - @player1_moves).empty? || (@diag_combo2 - @player1_moves).empty? || @player1_row_tally.has_value?(3) || @player1_column_tally.has_value?(3)
       puts "#{@player1} wins!"
       'game over'
@@ -86,13 +126,22 @@ class TicTacToe
     end
   end
 
+  def draw_board
+    puts '  1 2 3'
+    puts "a #{@a1}#{@a2}#{@a3}"
+    puts "b #{@b1}#{@b2}#{@b3}"
+    puts "c #{@c1}#{@c2}#{@c3}"
+  end
+
   def play
+    puts "Enter row and column to choose your move, e.g. 'a1'."
+    draw_board
     while @counter < 10
       move # calling this function; formatter keeps taking off parentheses
       #   store_move
-      print "player1_moves: #{@player1_moves} \n"
-      print "player2_moves: #{@player2_moves} \n"
-
+      # print "player1_moves: #{@player1_moves} \n"
+      # print "player2_moves: #{@player2_moves} \n"
+      draw_board
       return if winner == 'game over'
 
     end
